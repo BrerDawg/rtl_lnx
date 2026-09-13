@@ -3,12 +3,12 @@ jul-2026, v1.06
 ## rtl_lnx - SDR app for Linux
 
 
-##Purpose
+## Purpose
 Basic software defined radio gui app for linux with waterfall feature. Works with economical rtl-sdr usb dongles commonly used for terrestrial digital TV reception (DVB-T).
 
 
 
-##Intro
+## Intro
 Rtl based dongles are effectively wideband zero I/F radio receivers, they downconvert (tune) a frequency of interest to around 0Hz and give you an I/Q data stream with a bandwidth that's user adjustable. In this bandwidth there can be many radio signals to be further tuned in to using SDR software like this app. SDR's use digital signal processing methods to filter out and demodulate the signal of interest.
 
 If you already have a cheap dongle based on RTL2832U ADC and it has a frontend tuner ic onboard like an R820, it'll be good for VHF/UHF only as is, but that will certainly whet your appetite.
@@ -25,7 +25,7 @@ Your system may automatically set a newly inserted dongle for use by linux modul
 
 
 
-##Code
+## Code
 The app was developed with GNU C on PuppyLinux 32 bit, then moved to Ubuntu 64 bit.
 The code has had many additions over numerous years, it's rather experimental, messy and carries much breadboard baggage, some of which is now disabled. There are built-in ficticious radio channels that can be tuned in to (when no dongle is connected), this helps with code development. The code is heavy on commenting, some of which is possibly incorrect due to lengthy period of development. 
 
