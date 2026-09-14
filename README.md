@@ -109,7 +109,7 @@ Move the mouse to near the bottom of the graph and a blue bar will appear, chang
 
 The waterfall display gives you a history of recent carrier appearances and is also clickable. 
 
-If you wish to listen to lower side band (LSB) or upper sideband (USB) and have a dongle that supports HF, select SSB. Because no distinct fixed carrier exists for SSB (unlike what you find with AM), you need to adjust sub tuning (SubFreq) with mousewheel to place tuning needle at best freq to reduce audio pitch shifts. Lower side band needs the tuning needle to be right of the spectrum you want to listen to, upper sideband needs to be left of the spectrum. The spectrum I mention is the sideband signal which is just the audio modulation signal sitting at the carrier's freq, the spectrum is as wide as the audio bandwidth, the carrier is not present, just the sideband, if the audio mod. signal goes silent you will see nothing on graph.
+If you wish to listen to lower side band (LSB) or upper sideband (USB) and have a dongle that supports HF, select SSB. Because no distinct fixed carrier exists for SSB (unlike what you find with AM), you need to adjust sub tuning (SubFreq) with mousewheel to place tuning needle at best freq to reduce audio pitch shifts. Lower side band needs the tuning needle to be right of the spectrum you want to listen to, upper sideband needs to be left of the spectrum. The spectrum I mention is the sideband signal which is just the audio modulation signal sitting at the carrier's freq, the spectrum is as wide as the audio bandwidth, the carrier is not present, just the sideband, if the audio mod. signal goes silent you will see nothing on graph. You can turn on the built in test signal sythesiser in Device menu (Synth IQ samples - tune 0Hz), there you can set a signal to use LwrSB or UprSB modulation.
 
 There are square preset leds to quickly save and recall tunings (some presets are in a tabbed wnd, these show labels which you can set using the 'Name' text box). The presets are saved on exit and are persistent. Note the 'gp_frq_mem' leds only store the freq (rather than all the current settings, all other grouped preset leds do store most of current settings).
 
@@ -146,3 +146,4 @@ right clicking a modify pin so it will center it on graph when selected
 
 h-zoom: move mouse to lower part of graph to show blue bar, then spin mousewheel
 Audio Notcher: move mouse to upper part of graph to show red bar, then spin mousewheel to adj filter Q
+
