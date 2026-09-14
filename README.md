@@ -129,7 +129,7 @@ The Audio Spectrum Notcher graph allows you to click on relatively stationary wh
 ## Keyboard
 'Enter' key in rapid succession to clear freq keyin register (with mouse sitting over graph), type in a freq, use 'k', 'm' or 'g' to complete or a single 'Enter' key press to complete
 
-'Home' key to centre onboard tuner to current tuning (SubFreq is zeroed).
+'Home' key to center onboard tuner to current tuning (SubFreq is zeroed).
 Keypad '/'	h-zoom in, coarse.
 Keypad '*'	h-zoom out, coarse.
 
@@ -147,4 +147,7 @@ right clicking a modify pin so it will center it on graph when selected
 h-zoom: move mouse to lower part of graph to show blue bar, then spin mousewheel
 Audio Notcher: move mouse to upper part of graph to show red bar, then spin mousewheel to adj filter Q
 
-![rtl_lnx.jpg](rtl_lnx.jpg)
+
+![rtl_lnx0.jpg](rtl_lnx0.jpg)
+
+![rtl_lnx1.jpg](rtl_lnx1.jpg)
