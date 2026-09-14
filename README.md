@@ -146,4 +146,5 @@ right clicking a modify pin so it will center it on graph when selected
 
 h-zoom: move mouse to lower part of graph to show blue bar, then spin mousewheel
 Audio Notcher: move mouse to upper part of graph to show red bar, then spin mousewheel to adj filter Q
+
 ![rtl_lnx.jpg](rtl_lnx.jpg)
