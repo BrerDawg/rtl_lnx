@@ -90,12 +90,14 @@ Select the demodulator to use, presently: AM, SSB(for USB and LSB), FM, FM Stere
 
 Select a downsampler o/p srate with DwnSrate, try 12000 for AM and shortwave/SSB  (the srate will be set to a nearby integer factor of DevBW).
 
+Set downsampler antialias filter (DwnAA) to about half your downsampler srate.
+
 FM stereo: click on the 19K led for auto setup. Or tediously: set DevBW to 960000, also need modest downsampling, (high downsampler o/p srate, so a low downsample factor, try 320KHz for DwnSrate). Turn off all the filters, agc off, clipper off, and select DeEmphasis for your region to restore EQ, disable Mono. Adjust DevGain to suit, have found noise increases with high device gain (in my location in any case). The 19K led should go green showing PLL is locked which is req for correct stereo decoding. The FM Stereo performance is not the best due to the simple implementation.
 
 Setting a frequency to tune: put mouse within inset graph, hit 'enter' key to see current freq on graph (quickly hitting 'enter' again will clear freq), type in a freq then hit keybrd 'k', 'm' or 'g' such as 80.1m for 80.1 MHz (alternatively, within gui keypad area, you can type in a freq then hit keybrd 'k', 'm' or 'g', you can zero SubFreq with nearby button also). This sets the dongle's onboard tuner freq (OBT). This frequency is the center of the graph (when you are not h-zoomed in). Right click drag will change the onboard tuner freq.
 
 When you see a carrier appear on graph, left click on it to change sub tuning (SubFreq) to that carrier, sub tuning does not change onboard tuner freq. 
-Left click dragging changes the sub tuning, this is useful if you are h-zoomed in. Sub tuning can be tweeked with mousewheel when mouse is over this graph, if mouse is in lower half of graph the mousewheel gives courser freq adj (there are 2 markers on tuning needle showing where the tuning coarseness changes, see also in Prefs menu for coarseness settings).
+Left click dragging changes the sub tuning, this is useful if you are h-zoomed in. Sub tuning can be tweeked with mousewheel when mouse is over this graph, if mouse is in lower half of graph the mousewheel gives coarser freq adj (there are 2 markers on tuning needle showing where the tuning coarseness changes, see also in Prefs menu for coarseness settings).
 
 Adj filters to clean up reception for AM/SSB.
 
@@ -128,8 +130,8 @@ The Audio Spectrum Notcher graph allows you to click on relatively stationary wh
 'Enter' key in rapid succession to clear freq keyin register (with mouse sitting over graph), type in a freq, use 'k', 'm' or 'g' to complete or a single 'Enter' key press to complete
 
 'Home' key to centre onboard tuner to current tuning (SubFreq is zeroed).
-Keypad '/'	h-zoom in, course.
-Keypad '*'	h-zoom out, course.
+Keypad '/'	h-zoom in, coarse.
+Keypad '*'	h-zoom out, coarse.
 
 Keypad '-'	h-zoom in, fine.
 Keypad '+'	h-zoom out, fine.
@@ -144,5 +146,3 @@ right clicking a modify pin so it will center it on graph when selected
 
 h-zoom: move mouse to lower part of graph to show blue bar, then spin mousewheel
 Audio Notcher: move mouse to upper part of graph to show red bar, then spin mousewheel to adj filter Q
-
-
