@@ -151,15 +151,3 @@ Audio Notcher: move mouse to upper part of graph to show red bar, then spin mous
 ![rtl_lnx0.jpg](rtl_lnx0.jpg)
 
 ![rtl_lnx1.jpg](rtl_lnx1.jpg)
-
-
-## To Do
-RDS decoder
-poss this is fixed now ???? fix graph not plotting when FM Stereo has DevBW changed (is recovered by changing h-zoom)
-remove unused filter such as 'fm_ster_fir_23_53k_bpf'
-
-add to help how to disable blacklist dongle
-add alternate/prev tuning toggler
-reduce hilberts by 2 using 90 deg instead of +/-45 deg
-provide better rtl connection status, note this error shows a comms problem:  gcrtl::get_center_freq() - failed to get tuning freq
-dont allow pin click to move h axis if pin is onscreen
