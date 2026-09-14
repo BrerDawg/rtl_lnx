@@ -17,7 +17,7 @@ Reception is only as good as your aerial.
 
 If you are near an airport - an outdoor TV antenna can give you good results for airband (VHF). TV antennas also are good for the 144MHz amateur FM band. The NOAA sats at 137MHz are now decommissioned, another possibility is the ORBCOMM sats at similar freq, you would only see the modulated carrier when sat comes in range, this app does not have decoders for sats.
 
-With an RTL Blog v4 dongle (update: the v4 may no longer be avail), and a long wire aerial you should be able to receive international shortwave AM bands(depending on time of day and aether conditions), amateur ham radio (usually SSB) can also be heard, some of the more powerful amateurs half a world away are also receivable. Unfortunately strong AM commercial radio stations nearby can swamp the lower shortwave frequencies.
+With an RTL Blog v4 dongle (oh: the v4 may no longer be avail) and a long wire aerial, you should be able to receive international shortwave AM bands(depending on time of day and aether conditions), amateur ham radio (usually SSB) can also be heard, some of the more powerful amateurs half a world away are also receivable. Unfortunately strong AM commercial radio stations nearby can swamp the lower shortwave frequencies.
 
 RTL Blog v4 dongles require the correct driver installed on your system, else you won't have access to its additional circuitry. If you decide to buy one of these, only buy it from their recommended suppliers, the numerous cheap clone copies do not have the same circuitry and usually do not work at all, or have poor performance for AM/shortwave.
 
@@ -35,9 +35,9 @@ The code is not Wayland ready, but from what I've read fltk now supports Wayland
 
 Gui controls are mostly organised into labelled groups, such as 'gp_filter', those in development or no longer operational are marked as 'UnderDevlpmt'. The groups have their borders showing and are positioned in an ad hoc fashion so the gui is somewhat ugly.
 
-Set boolean 'b_use_synthesis_dont_use_rtl_dev' to '1' to stop probing of rtl dongles on startup, helps when moding/debugging code (in file: rtl_scan.cpp).
+Set boolean 'b_use_synthesis_dont_use_rtl_dev' to '1' to stop probing of rtl dongles on startup, helps when moding/debugging code (in file: rtl_graph.cpp).
   
-Set boolean 'b_slow_load_read_voice_files' to '0' to speed app startup, this removes the voice fictitious channels, handy when doing a mod/test code cycle (in file: rtl_graph.cpp).
+Set boolean 'b_fast_start_no_voice_files' to '1' to speed app startup, this removes the fictitious voice channels, handy when doing a mod/test code cycle (in file: rtl_graph.cpp).
 
 I'm not much of a radio operator, this project was much about learning DSP techniques, it's crept into a radio, some controls and features may not make sense or be cumbersome to experienced operators, would recommend you also seek out other SDR programs which have much nicer gui, graphs, features and performance if you are going to spend some time listening.
 
@@ -151,3 +151,15 @@ Audio Notcher: move mouse to upper part of graph to show red bar, then spin mous
 ![rtl_lnx0.jpg](rtl_lnx0.jpg)
 
 ![rtl_lnx1.jpg](rtl_lnx1.jpg)
+
+
+## To Do
+RDS decoder
+poss this is fixed now ???? fix graph not plotting when FM Stereo has DevBW changed (is recovered by changing h-zoom)
+remove unused filter such as 'fm_ster_fir_23_53k_bpf'
+
+add to help how to disable blacklist dongle
+add alternate/prev tuning toggler
+reduce hilberts by 2 using 90 deg instead of +/-45 deg
+provide better rtl connection status, note this error shows a comms problem:  gcrtl::get_center_freq() - failed to get tuning freq
+dont allow pin click to move h axis if pin is onscreen
