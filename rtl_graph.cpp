@@ -16629,7 +16629,7 @@ for( int i = 0; i < vpin.size(); i++ )
 	vgph_obj.push_back( op );											//pie circle, filled
 	
 	
-	op.rr = 255;
+	op.rr = 0;
 	op.gg = 0;
 	op.bb = 0;
 	op.shape = en_dobt_pie;
@@ -17183,7 +17183,6 @@ if( b_sub_tuner_needle )
 		}
 
 	//---------------------------------------
-
 
 	//--- draw horiz line bottom of graph to show in hzoom region ----
 	if( wnd_rtl_graph->gph0->inside_control )
@@ -17783,7 +17782,7 @@ if( 1 )
 		if( !(op.flags & en_gflg_vis) )	continue;						//not visible ? 
 		
 		mdo.type = op.shape;
-		mdo.draw_ordering = 1;				//draw before graticle, 0 = before grid,  1 = after graticle but before traces,   2 = after traces
+		mdo.draw_ordering = 2;				//draw before graticle, 0 = before grid,  1 = after graticle but before traces,   2 = after traces
 
 		mdo.use_pos_x = -1;					//if not set to -1: then use this trace id to get a specific x position
 		mdo.use_pos_y = -1;
