@@ -129,9 +129,9 @@ The Audio Spectrum Notcher graph allows you to click on relatively stationary wh
 ## Keyboard
 'Enter' key in rapid succession to clear freq keyin register (with mouse sitting over graph), type in a freq, use 'k', 'm' or 'g' to complete or a single 'Enter' key press to complete
 
-'Home' key to center onboard tuner to current tuning (SubFreq is zeroed).
-Keypad '/'	h-zoom in, coarse.
-Keypad '*'	h-zoom out, coarse.
+'Home' key to center onboard tuner to current tuning (SubFreq is zeroed).</b>
+Keypad '/'	h-zoom in, coarse.</b>
+Keypad '*'	h-zoom out, coarse.</b>
 
 Keypad '-'	h-zoom in, fine.
 Keypad '+'	h-zoom out, fine.
