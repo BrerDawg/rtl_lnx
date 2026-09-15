@@ -1892,7 +1892,7 @@ mousex = mousey = 0;
 mousemove_p_cb = 0;
 left_click_p_cb = 0;
 mousewheel_p_cb = 0;
-
+keydown_p_cb = 0;
 
 //pixbf0 = 0;
 pixbf1 = 0;
@@ -1974,6 +1974,18 @@ void cl_waterfall::set_mousewheel_cb( void (*p_cb)( cl_waterfall*, void*, int ),
 mousewheel_p_cb = p_cb;
 mousewheel_cb_args = args;
 }
+
+
+
+
+
+void cl_waterfall::set_keydown_cb( void (*p_cb)( cl_waterfall*, void* ), void *args )
+{
+keydown_p_cb = p_cb;
+keydown_cb_args = args;
+}
+
+
 
 
 
@@ -2812,9 +2824,20 @@ if ( e == FL_MOUSEWHEEL )
     dont_pass_on = 1;
 	}
 
-if ( e == FL_KEYUP )  				                    //key release?
+
+if ( e == FL_KEYDOWN )  				                    //key down?
 	{
-	int key = Fl::event_key();
+	key = Fl::event_key();
+	if( keydown_p_cb ) keydown_p_cb( this, keydown_cb_args, key );
+
+	need_redraw = 1;
+    dont_pass_on = 1;
+	}
+
+
+if ( e == FL_KEYUP )  				                   	 //key release?
+	{
+	key = Fl::event_key();
 //	if( ( key == FL_Control_L ) || ( key == FL_Control_R ) ) ctrl_key = 0;
 //`	if( ( key == FL_Shift_L ) || (  key == FL_Shift_R ) ) shift_key = 0;
 
@@ -14938,6 +14961,15 @@ printf( "cb_wfall0_mousewheel_cb() - frq %d\n", frq );
 
 
 
+void cb_wfall0_keydown_cb( void *w, void *args, int key )
+{
+printf( "cb_wfall0_keydown_cb() - key %d\n", (int)args );
+
+cb_graph_keydown( wnd_rtl_graph, key );							//redirect
+}
+
+
+
 
 bool preset_ask_overwrite()
 {
@@ -16045,6 +16077,12 @@ printf( "------------- rtl_graph_wnd::pin_add() -------------\n" );
 
 pin_deselect_all();
 
+int wid, hei;
+gph0->get_background_dimensions( wid, hei );
+
+if( py > hei ) py = hei - 20;											//this helps if waterfall is where mouse was sitting when pin was dropped
+if( py < 10 ) py = 10;
+
 st_freq_pin op;
 
 op.px = px;									//a pin to a freq does not use 'px', 'px' is determined by 'freq_actual'
@@ -16588,7 +16626,22 @@ for( int i = 0; i < vpin.size(); i++ )
 	op.bb = 100;
 
 
-	vgph_obj.push_back( op );
+	vgph_obj.push_back( op );											//pie circle, filled
+	
+	
+	op.rr = 255;
+	op.gg = 0;
+	op.bb = 0;
+	op.shape = en_dobt_pie;
+
+	op.x = op.x + 2;
+	op.y = op.y + 2;
+
+	op.wid = 3;
+	op.hei = 3;
+
+	vgph_obj.push_back( op );											//smaller pie circle, inner, filled
+//
 	//---
 	}
 
@@ -16597,7 +16650,7 @@ for( int i = 0; i < vpin.size(); i++ )
 
 
 
-//--- this MUST be sit at the LAST entry index as it uses an one of the earlier entries to allow this sel rect to encompass the earlier selected obj	------		
+//--- this MUST be sit at the LAST entry index as it uses one of the earlier entries to allow this sel rect to encompass the earlier selected obj	------		
 if( gph0_obj_sel_idx >= 0 )
 	{
 	st_gph_obj_tag og_sel = vgph_obj[ gph0_obj_sel_idx ];
@@ -21270,6 +21323,7 @@ wfall0 = new cl_waterfall( 10, wfall0_posy, w() - 20, wfall0_hei );
 wfall0->set_left_click_cb( cb_wfall0_set_left_click_cb, this );
 wfall0->set_mousemove_cb( cb_wfall0_mousemove_cb, this );
 wfall0->set_mousewheel_cb( cb_wfall0_mousewheel_cb, this );
+wfall0->set_keydown_cb( cb_wfall0_keydown_cb, this );
 
 //allocate a fixed size
 for( int i = 0; i < cn_spec_avg_slots_max; i++ )

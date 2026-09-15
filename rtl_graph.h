@@ -847,6 +847,8 @@ void *left_click_cb_args;
 void (*mousewheel_p_cb)( cl_waterfall *wdj, void *args, int delta );
 void *mousewheel_cb_args;
 
+void (*keydown_p_cb)( cl_waterfall *wdj, void *args, int key );
+void *keydown_cb_args;
 
 public:
 bool inside_control;
@@ -856,6 +858,7 @@ int mousex, mousey;
 bool left_button;
 bool right_button;
 bool middle_button;
+int key;
 
 int freq_center;
 int bwidth;
@@ -888,6 +891,7 @@ void clear();
 void set_mousemove_cb( void (*p_cb)( cl_waterfall*, void* ), void *args );
 void set_left_click_cb( void (*p_cb)( cl_waterfall *, void* ), void *args );
 void set_mousewheel_cb( void (*p_cb)( cl_waterfall*, void*, int ), void *args );
+void set_keydown_cb( void (*p_cb)( cl_waterfall*, void* ), void *args );
 
 
 private:
