@@ -78,7 +78,7 @@ gcpipe.o: gcpipe.h GCProfile.h
 gcpipe.o: OPTMZ=$(OPTMZ_SELECT_O3)
 
 rtl_graph.o: rtl_graph.cpp rtl_graph.h GCProfile.h pref.h GCCol.h GCLed.h gclog.h gcthrd.h gcpipe.h globals.h bmp_code.h rtlobj.h convenience.h gc_rtaudio.h rt_code.h my_input_wheel.h input_dropbox.h mgraph.h favourite_code.h aa_canvas.h filter_code.h audio_formats.h line_clip_code.h bmp_code.h gc_srateconv.h vert_meter.h rotary_knob_code.h demod_code.h button_wheel_code.h fm_demode_code.h halfband_poly_optimised_float.h aud_spect_code.h gc_input_multiline.h
-rtl_graph.o: OPTMZ=$(OPTMZ_SELECT_O0)
+rtl_graph.o: OPTMZ=$(OPTMZ_SELECT_O3)
 
 rtlobj.o: rtlobj.cpp rtlobj.h GCProfile.h globals.h
 rtlobj.o: OPTMZ=$(OPTMZ_SELECT_O3)
