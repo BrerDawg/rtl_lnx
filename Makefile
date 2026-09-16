@@ -1,4 +1,5 @@
-#	A Makefile
+#	Makefile
+#	v1.01 	2026-sep-17		
 
 #define all executables here
 all: rtl_lnx
@@ -18,8 +19,10 @@ CFLAGS= -g -Wfatal-errors -Wfatal-errors -fpermissive -Dbuild_date="\"`date +%Y-
 #LIBS=-L/usr/X11/lib -L/usr/local/lib -L/usr/lib /usr/local/lib/libfltk.a ./librtlsdr.a -lusb-1.0 -lfltk_images -lpng -lz -ljpeg -lrt -lm -lXcursor -lXfixes -lXext -lXft -lfontconfig -lXinerama -lXrender -lpthread -ldl -lX11 -lfftw3 
 #LIBS=-L/usr/X11/lib -L/usr/local/lib -L/usr/lib /usr/local/lib/libfltk.a -lrtlsdr -lusb-1.0 -lfltk_images -lpng -lz -ljpeg -lrt -lm -lXcursor -lXfixes -lXext -lXft -lfontconfig -lXinerama -lXrender -lpthread -ldl -lX11 -lfftw3 -lasound -ljack -lasound `pkg-config --libs rtaudio` -ljack
 #INCLUDE= -I/usr/local/include -Irtl_include -I/usr/include/libusb-1.0/
-LIBS=-L/usr/X11/lib -L/usr/local/lib -L/usr/lib -lfltk -lfltk_images -lrtlsdr -lfltk_images -lpng -lz -ljpeg -lrt -lm -lXcursor -lXfixes -lXext -lXft -lfontconfig -lXinerama -lXrender -lpthread -ldl -lX11 -lfftw3 -lasound `pkg-config --libs rtaudio`
-INCLUDE= -I/usr/local/include -Irtl_include -I/home/gc/rtl-sdr-blog/include
+LIBS=-L/usr/X11/lib -L/usr/lib/ -L/usr/lib -lfltk -lfltk_images -ldbus-1 -lrtlsdr -lpng -lz -ljpeg -lrt -lm -lXcursor -lXfixes -lXext -lXft -lfontconfig -lXinerama -lXrender -lpthread -ldl -lX11 -lfftw3 -lasound `pkg-config --libs rtaudio`
+INCLUDE= -I/usr/include -Irtl_include -I/home/gc/rtl-sdr-blog/include
+
+
 
 #define object files for each executable, see dependancy list at bottom
 obj1= rtl_scan.o GCProfile.o pref.o GCCol.o GCLed.o gclog.o gcthrd.o gcpipe.o rtl_graph.o rtlobj.o convenience.o gc_rtaudio.o rt_code.o my_input_wheel.o input_dropbox.o mgraph.o favourite_code.o aa_canvas.o filter_code.o audio_formats.o line_clip_code.o bmp_code.o gc_srateconv.o vert_meter.o rotary_knob_code.o demod_code.o button_wheel_code.o fm_demode_code.o aud_spect_code.o gc_input_multiline.o
@@ -75,7 +78,7 @@ gcpipe.o: gcpipe.h GCProfile.h
 gcpipe.o: OPTMZ=$(OPTMZ_SELECT_O3)
 
 rtl_graph.o: rtl_graph.cpp rtl_graph.h GCProfile.h pref.h GCCol.h GCLed.h gclog.h gcthrd.h gcpipe.h globals.h bmp_code.h rtlobj.h convenience.h gc_rtaudio.h rt_code.h my_input_wheel.h input_dropbox.h mgraph.h favourite_code.h aa_canvas.h filter_code.h audio_formats.h line_clip_code.h bmp_code.h gc_srateconv.h vert_meter.h rotary_knob_code.h demod_code.h button_wheel_code.h fm_demode_code.h halfband_poly_optimised_float.h aud_spect_code.h gc_input_multiline.h
-rtl_graph.o: OPTMZ=$(OPTMZ_SELECT_O3)
+rtl_graph.o: OPTMZ=$(OPTMZ_SELECT_O0)
 
 rtlobj.o: rtlobj.cpp rtlobj.h GCProfile.h globals.h
 rtlobj.o: OPTMZ=$(OPTMZ_SELECT_O3)

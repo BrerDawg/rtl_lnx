@@ -1,4 +1,4 @@
-jul-2026, v1.06
+Jul-2026, v1.06
 
 ## rtl_lnx - SDR app for Linux
 
@@ -31,7 +31,7 @@ The code has had many additions over numerous years, it's rather experimental, m
 
 I've tried to reduce library dependencies as much as possible to allow easier compilation, the downside of this is the code is not very efficient.
 
-The code is not Wayland ready, but from what I've read fltk now supports Wayland, so it may not be a major undertaking to support it, I have removed some old X11 calls which were not essential.
+The code has not been tested Wayland, but from what I've read fltk-1.5 supports Wayland, so if it does not work it may not be a major undertaking to support it, I have removed some old X11 calls which were not essential.
 
 Gui controls are mostly organised into labelled groups, such as 'gp_filter', those in development or no longer operational are marked as 'UnderDevlpmt'. The groups have their borders showing and are positioned in an ad hoc fashion so the gui is somewhat ugly.
 
@@ -59,7 +59,11 @@ https://www.rtl-sdr.com/
 
 
 ## Build
-Requires: rtlsdr, fftw3, RTAudio v6.01, and FLTK libraries for linking, fltk-1.3.4-2 or similar should work.
+Requires: rtlsdr, fftw3, RTAudio v6.01, and FLTK libraries for linking, fltk-1.3.8 or fltk-1.5 will work.
+
+Point Makefile 'LIBS' and 'INCLUDE' to your system setup
+
+Have not tested on Wayland but fltk-1.5 supports it, see Code section above also.
 
 To build executable, type: make
 

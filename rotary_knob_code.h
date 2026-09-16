@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <FL/Enumerations.H>
 #include <FL/fl_draw.H>
 #include "GCProfile.h"
+#include <FL/Fl_Group.H>
 
 using namespace std;
 
