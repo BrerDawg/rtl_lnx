@@ -35,9 +35,9 @@ The code has not been tested Wayland, but from what I've read fltk-1.5 supports 
 
 Gui controls are mostly organised into labelled groups, such as 'gp_filter', those in development or no longer operational are marked as 'UnderDevlpmt'. The groups have their borders showing and are positioned in an ad hoc fashion so the gui is somewhat ugly.
 
-Set boolean 'b_use_synthesis_dont_use_rtl_dev' to '1' to stop probing of rtl dongles on startup, helps when moding/debugging code (in file: rtl_graph.cpp).
+Set boolean '**b_use_synthesis_dont_use_rtl_dev**' to '1' to stop probing of rtl dongles on startup, helps when moding/debugging code (in file: rtl_graph.cpp).
   
-Set boolean 'b_fast_start_no_voice_files' to '1' to speed app startup, this removes the fictitious voice channels, handy when doing a mod/test code cycle (in file: rtl_graph.cpp).
+Set boolean  '**b_fast_start_no_voice_files**' to '1' to speed app startup, this removes the fictitious voice channels, handy when doing a mod/test code cycle (in file: rtl_graph.cpp).
 
 I'm not much of a radio operator, this project was much about learning DSP techniques, it's crept into a radio, some controls and features may not make sense or be cumbersome to experienced operators, would recommend you also seek out other SDR programs which have much nicer gui, graphs, features and performance if you are going to spend some time listening.
 
