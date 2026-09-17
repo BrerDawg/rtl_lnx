@@ -59,7 +59,7 @@ https://www.rtl-sdr.com/
 
 
 ## Build
-Requires: rtlsdr, fftw3, RTAudio v6.01, and FLTK libraries for linking, fltk-1.3.8 or fltk-1.5 will work.
+Requires: rtlsdr, fftw3, RTAudio v6.01, and FLTK libraries for linking, fltk-1.3.8 or fltk-1.5 work ok (have not tested on Wayland which fltk-1.5 supports).
 
 Point Makefile 'LIBS' and 'INCLUDE' to your system setup.
 
@@ -155,3 +155,5 @@ Audio Notcher: move mouse to upper part of graph to show red bar, then spin mous
 ![rtl_lnx0.jpg](rtl_lnx0.jpg)
 
 ![rtl_lnx1.jpg](rtl_lnx1.jpg)
+
+
