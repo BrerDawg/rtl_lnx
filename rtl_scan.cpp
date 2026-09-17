@@ -2133,7 +2133,7 @@ return iAppExistDontRun;
 //returns 1 if file was able to be locked
 //returns 0 if file was already locked (possibly by another running instance)
 
-//NOTE you should run this periodically incase the file lock was held by a previous running instance, when that instances closes, this app will gain file lock
+//NOTE you should run this periodically incase the file lock was held by a previous running instance, when that instance closes, this app will gain file lock
 //NOTE is called by 'check_instance_exists()' on startup AND periodically by 'cb_timer1()'
 int check_instance_try_lock( int fd )
 {
@@ -3810,7 +3810,7 @@ return 1;
 int device_cnt = -1;
 string sdevice_list;
 int device_index = -1;
-
+bool bstart_synthesis = 0;
 
 void ask_which_rtl_device()
 {
@@ -3840,6 +3840,13 @@ if( sz != 0 )
 		}
 	}
 else{
+	strpf( s1, "Start I/Q synthesis to simulate an RTL dongle stream with test signals ?" );
+	int ret = fl_choice( s1.c_str(),"No","Start Synthsis", 0 );
+	if( ret == 1 )
+		{
+		bstart_synthesis = 1;
+		}
+
 //	strpf( s1, "Will exit...");
 //	fl_alert( s1.c_str(), 0 );
 //	exit(0);
@@ -4062,6 +4069,7 @@ else{
 int tops_thread_cnt = 0;
 
 float tim_10sec_cnt = 0;
+//mystr m1_tmp;
 
 
 int cb_timer1_cnt = 0;
@@ -4195,6 +4203,19 @@ if( start_up_state == 1 )					//2nd exec
 	else{
 		start_up_state = 2;
 		ask_which_rtl_device();
+		if( bstart_synthesis )
+			{
+//			b_use_synthesis_dont_use_rtl_dev = 1;
+			wnd_rtl_graph->b_synth_iq = 1;
+			set_synth_mode_and_menu_state( wnd_rtl_graph->b_synth_iq );
+			
+			start_threads_rtl();
+			start_audio();
+			filters_create();
+
+			start_up_state = 4;
+			}
+
 		}
 
 	wndMain->hide();
@@ -4301,6 +4322,13 @@ if( tim_10sec_cnt < 0 )
 		{
 //		printf("cb_timer1() - the 'check instance exists' file lock was obtained by this app, new instances will know this instance is already running\n" );
 		}
+
+
+//float dt = m1_tmp.time_passed(m1_tmp.ns_tim_start );
+//m1_tmp.time_start(m1_tmp.ns_tim_start );
+//printf("cb_timer1() - m1_tmp %f\n", dt );
+		
+//		printf("cb_timer1() - the 'check instance exists' file lock was obtained by this app, new instances will know this instance is already running\n" );
 	}
 
 
