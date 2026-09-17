@@ -84,7 +84,7 @@ bool b_use_synthesis_dont_use_rtl_dev = 0;								//set this TO SKIP using a PHY
 																		//SEE ALSO 'b_fast_start_no_voice_files'
 
 
-bool b_fast_start_no_voice_files = 0;									//set this to one to speed startup while debugging, avoids voice file reads, srate resampling and hilbert firs, all which are slow to process,
+bool b_fast_start_no_voice_files = 1;									//set this to one to speed startup while debugging, avoids voice file reads, srate resampling and hilbert firs, all which are slow to process,
 																		//further below are sin/cos synth signals which are used to replace each voice file process chain
 																		//refer 'set_synth_mode_and_menu_state()'
 																		//SEE ALSO 'b_use_synthesis_dont_use_rtl_dev'
@@ -10373,6 +10373,17 @@ for( int i = 0; i < vpin.size(); i++ )
 
 
 
+
+
+mystr m1_freq_listen_call_rate_reducer;
+
+
+
+
+
+
+
+
 void cb_graph_mousemove( void *o, int int0, int int1, double dble0, double dble1 )
 {
 double mx, my;
@@ -10474,7 +10485,18 @@ if( wnd_rtl_graph->gph0->right_button )		//dragging, change onboard tuner freq ?
 
 		wnd_rtl_graph->miw_freq_sub_tune->set_value_from_double( mgraph_freq_sub_tune + freq_delta );
 
-		wnd_rtl_graph->freq_listen( 0, 0, 0, 0, "cb_graph_mousemove() 0" );
+//		wnd_rtl_graph->freq_listen( 0, 0, 0, 0, "cb_graph_mousemove() 0" );
+
+		//--- for fltk v1.5 (compared to v1.3.8) found need to reduce number of calls to 'freq_listen()' ---
+		float dt = m1_freq_listen_call_rate_reducer.time_passed( m1_freq_listen_call_rate_reducer.ns_tim_start );
+		if( dt > 0.1 )
+			{
+			m1_freq_listen_call_rate_reducer.time_start( m1_freq_listen_call_rate_reducer.ns_tim_start );
+			
+			wnd_rtl_graph->freq_listen( 0, 0, 0, 0, "cb_graph_mousemove() 0" );
+			//printf( "cb_graph_mousemove() - dt %f\n", dt );
+			}
+		//--------------------------
 		}
 
 
@@ -10537,7 +10559,18 @@ if( wnd_rtl_graph->gph0->left_button )		//dragging, change sub tuner freq ?
 	
 		wnd_rtl_graph->miw_freq_sub_tune->set_value_from_double( mgraph_freq_sub_tune + freq_delta );
 
-		wnd_rtl_graph->freq_listen( 0, 0, 0, 0, "cb_graph_mousemove() 1" );
+//		wnd_rtl_graph->freq_listen( 0, 0, 0, 0, "cb_graph_mousemove() 1" );
+
+		//--- for fltk v1.5 (compared to v1.3.8) found need to reduce number of calls to 'freq_listen()' ---
+		float dt = m1_freq_listen_call_rate_reducer.time_passed( m1_freq_listen_call_rate_reducer.ns_tim_start );
+		if( dt > 0.1 )
+			{
+			m1_freq_listen_call_rate_reducer.time_start( m1_freq_listen_call_rate_reducer.ns_tim_start );
+			
+			wnd_rtl_graph->freq_listen( 0, 0, 0, 0, "cb_graph_mousemove() 1" );
+			//printf( "cb_graph_mousemove() - dt %f\n", dt );
+			}
+		//--------------------------
 		}
 
 
@@ -10862,7 +10895,6 @@ if( wnd_rtl_graph->gph0->shift_key )									//change graph y scaling?
 	gph_scaley *= multiplier;
 
 	wnd_rtl_graph->miw_gph_scaley->set_value_from_double( gph_scaley );
-
 
 	bdone = 1;
 	}
