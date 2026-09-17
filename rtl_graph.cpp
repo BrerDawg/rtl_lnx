@@ -84,7 +84,7 @@ bool b_use_synthesis_dont_use_rtl_dev = 0;								//set this TO SKIP using a PHY
 																		//SEE ALSO 'b_fast_start_no_voice_files'
 
 
-bool b_fast_start_no_voice_files = 1;									//set this to one to speed startup while debugging, avoids voice file reads, srate resampling and hilbert firs, all which are slow to process,
+bool b_fast_start_no_voice_files = 0;									//set this to one to speed startup while debugging, avoids voice file reads, srate resampling and hilbert firs, all which are slow to process,
 																		//further below are sin/cos synth signals which are used to replace each voice file process chain
 																		//refer 'set_synth_mode_and_menu_state()'
 																		//SEE ALSO 'b_use_synthesis_dont_use_rtl_dev'
