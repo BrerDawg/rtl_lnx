@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 								//added 'override_col()'
 //---- v1.13    2026-may-10		//fixed swapped 'bb', 'gg' in passed vars to 'set_index_col_rgb()' 
 //---- v1.14    2026-aug-21		//change 'cnMaxColIndex' to 32
-//---- v1.15    2026-sep-16		//added '#include <FL/Fl_Group.H>' req for fltk v1.4.5
+//---- v1.15    2026-sep-16		//added '#include <FL/Fl_Group.H>' req for fltk v1.5
 
 #include "GCLed.h"
 
