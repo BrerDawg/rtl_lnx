@@ -4099,11 +4099,11 @@ if( start_up_state == 3 )					//4th exec
 		{
 		if( ( !rtl.open( device_index ) ) || ( b_use_synthesis_dont_use_rtl_dev ) )
 			{
-			if( b_use_synthesis_dont_use_rtl_dev) printf( "cb_timer1() - skipping use of rtl dongle, poss due to flag on cmdline 'no_rtl=1', or boolean c code flag: 'b_fast_start_no_voice_files=1' was set in code build\n" );
+			if( b_use_synthesis_dont_use_rtl_dev) printf( "cb_timer1() - skipping use of rtl dongle, can be due to flag on cmdline 'no_rtl=1', or boolean c code flag: 'b_use_synthesis_dont_use_rtl_dev=1' was set in code build.\n" );
 			else printf( "cb_timer1() - failed to open rtl dongle index: %d\n", device_index );
 			
 			if( b_use_synthesis_dont_use_rtl_dev) strpf(s1, "Failed to open rtl dongle index: %d\n\n==> Will turn on IQ synthesis mode to simulate a dongle and provide test signals.", device_index );
-			else strpf(s1, "Skipping use of rtl dongle, poss due to flag on cmdline 'no_rtl=1', or boolean c code flag: 'b_fast_start_no_voice_files=1' was set in code build.\n\nWill turn on IQ synthesis mode to simulate a dongle and provide test signals." );
+			else strpf(s1, "Skipping use of rtl dongle, can be due to flag on cmdline 'no_rtl=1', or boolean c code flag: 'b_use_synthesis_dont_use_rtl_dev=1' was set in code build.\n\nWill turn on IQ synthesis mode to simulate a dongle and provide test signals." );
 			
 			fl_alert( s1.c_str(), 0 );
 			
@@ -4178,9 +4178,9 @@ if( start_up_state == 1 )					//2nd exec
 	{
 	if( device_cnt == 0 )
 		{
-		if( b_use_synthesis_dont_use_rtl_dev) printf( "cb_timer1() - Skipping use of rtl dongle, poss due to flag on cmdline 'no_rtl=1', or boolean c code flag: 'b_fast_start_no_voice_files=1' was set in code build\n" );
+		if( b_use_synthesis_dont_use_rtl_dev) printf( "cb_timer1() - Skipping use of rtl dongle, can be due to flag on cmdline 'no_rtl=1', or boolean c code flag: 'b_use_synthesis_dont_use_rtl_dev=1' was set in code build\n" );
 		else printf( "cb_timer1() - No rtl devices found.\n" );
-		if( b_use_synthesis_dont_use_rtl_dev) strpf(s1, "skipping use of rtl dongle, poss due to flag on cmdline 'no_rtl=1', or boolean c code flag: 'b_fast_start_no_voice_files=1' was set in code build.\n\n==> Will turn on IQ synthesis mode to simulate a dongle and provide test signals.\n" );
+		if( b_use_synthesis_dont_use_rtl_dev) strpf(s1, "Skipping use of rtl dongle, can be due to flag on cmdline 'no_rtl=1', or boolean c code flag: 'b_use_synthesis_dont_use_rtl_dev=1' was set in code build.\n\n==> Will turn on IQ synthesis mode to simulate a dongle and provide test signals.\n" );
 		else strpf(s1, "No rtl devices found.\n\n==> Will turn on IQ synthesis mode to simulate a device and provide test signals.\n" );
 		fl_alert( s1.c_str(), 0 );
 
