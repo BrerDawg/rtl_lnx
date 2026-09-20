@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //v1.18 	mgraph
 //v1.19 	fast_graph
 //v1.20 		surface3d
-//v1.41 	fast_graph/mgraph
+//v1.42 	fast_graph/mgraph
 
 #ifndef mgraph_h
 #define mgraph_h
@@ -1271,6 +1271,8 @@ int wnd_cur_hei;
 public:
 int id0;																//for user use, does not affect graph
 int id1;
+vector<st_mgraph_draw_obj_tag> vuser_mdo;				//v1.42, this is global to 'fast_mgraph', it will appear on each graph in multi graphs
+
 mgraph *gph[cn_fast_mgraph_cnt_max];
 mg_col_tag col_obj_axis[cn_fast_mgraph_cnt_max];
 

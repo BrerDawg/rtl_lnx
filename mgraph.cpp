@@ -158,6 +158,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 										
 //v1.40				18-aug-2026			//added 'dsp_utils_code::goertzel_mag_real_float()'  'dsp_utils_code::goertzel_mag_real_double()'
 //v1.41				03-sep-2026			//added 'dsp_utils_code::freqz_fir_between_freqs()'
+//v1.42				20-sep-2026			//added  to 'fast_mgraph'  'vuser_mdo', this is global to 'fast_mgraph', it will appear on each graph in multi graphs
 
 				
 #include "mgraph.h"
@@ -15625,6 +15626,71 @@ if( gph[ ii ]->trce.size() == 0 ) return;
 
 
 gph[ ii ]->vdrwobj.clear();
+
+gph[ ii ]->vdrwobj = vuser_mdo;											//v1.42
+
+
+//--------
+
+/*
+{
+gph[ ii ]->vdrwobj = vuser_mdo;											//v1.42
+
+if( id0 == 2 ) printf( "graph_idx %d  vuser_mdo %d\n", graph_idx, vuser_mdo.size() );
+
+
+int offx, offy;
+int wid, hei;
+gph[0]->get_background_offsxy( offx, offy );
+gph[0]->get_background_dimensions( wid, hei );
+
+
+st_mgraph_draw_obj_tag mdo;
+
+mdo.type = (en_mgraph_draw_obj_type)en_dobt_text;
+
+mdo.visible = 1;
+mdo.draw_ordering = 2;				//draw before graticle, 0 = before grid,  1 = after graticle but before traces,   2 = after traces
+
+mdo.use_pos_x = -1;                 //if not set to -1: then use this trace id to get a specific x position
+mdo.use_scale_x = -1;               //if not set to -1: then use this trace id to get a specific x scale
+
+mdo.use_pos_y = -1;                 //if not set to -1: then use this trace id to get a specific y position
+mdo.use_scale_y = -1;               //if not set to -1: then use this trace id to get a specific y scale
+
+mdo.clip_left = 0;
+mdo.clip_right = 0;
+mdo.clip_top = 0;
+mdo.clip_bottom = 0;
+
+mdo.x1 = 10;
+mdo.y1 = hei/2;
+mdo.x2;
+mdo.y2;
+mdo.arc1 = 0;
+mdo.arc2 = 0;
+mdo.stext = "a line of text";
+mdo.r = 0;
+mdo.g = 0;
+mdo.b = 0;
+mdo.font = 4;
+mdo.font_size = 12;
+mdo.justify = en_tj_none;
+mdo.line_style = (en_mgraph_line_style)FL_SOLID;
+mdo.line_thick = 1;
+
+
+
+//gph[ii]->vdrwobj.push_back( mdo );
+
+//--------
+}
+return;
+*/
+
+
+
+
 
 //if( ii == 0 ) return;
 
