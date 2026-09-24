@@ -31,7 +31,7 @@ The code has had many additions over numerous years, it's rather experimental, m
 
 I've tried to reduce library dependencies as much as possible to allow easier compilation, the downside of this is the code is not very efficient.
 
-The code has not been tested on Wayland, but from what I've read FLTK-1.5 supports Wayland, so if it does not work it may not be a major undertaking to support it, I have removed some old X11 calls which were not essential.
+The code has not been tested on Wayland, but from what I've read fltk-1.5 supports Wayland, so if it does not work it may not be a major undertaking to support it, I have removed some old X11 calls which were not essential.
 
 Gui controls are mostly organised into labelled groups, such as 'gp_filter', those in development or no longer operational are marked as 'UnderDevlpmt'. The groups have their borders showing and are positioned in an ad hoc fashion so the gui is somewhat ugly.
 
@@ -39,7 +39,7 @@ Set boolean '**b_use_synthesis_dont_use_rtl_dev**' to '1' to stop probing of rtl
   
 Set boolean  '**b_fast_start_no_voice_files**' to '1' to speed app startup, this removes the fictitious voice channels, handy when doing a mod/test code cycle (in file: rtl_graph.cpp).
 
-I'm not much of a radio operator, this project was much about learning DSP techniques, it's crept into a radio, some controls and features may not make sense or be cumbersome to experienced operators, would recommend you also seek out other SDR programs which have much nicer gui, graphs, features and performance if you are going to spend some time listening.
+I'm not an avid radio operator, this project was much about learning DSP techniques, it's crept into a radio, some controls and features may not make sense or be cumbersome to experienced operators, would recommend you also seek out other SDR programs which have much nicer gui, graphs, features and performance if you are going to spend some time listening.
 
 There is a gui thread (main), rtl driver thread, and an audio thread.
 
@@ -59,11 +59,11 @@ https://www.rtl-sdr.com/
 
 
 ## Build
-Requires: rtlsdr, fftw3, RTAudio v6.01, and FLTK libraries for linking.
+Requires: rtlsdr, fftw3, RTAudio v6.01, and FLTK libraries for linking, fltk-1.3.8 or fltk-1.5 work ok (have not tested on Wayland which fltk-1.5 supports).
 
-FLTK-1.3.8 or FLTK-1.5 work ok, legibility of fonts may vary between versions (have not tested on Wayland which FLTK-1.5 supports).
+Point the Makefile's 'LIBS' and 'INCLUDE' to your system setup.
 
-Point Makefile 'LIBS' and 'INCLUDE' to your system setup.
+Have not tested on Wayland but fltk-1.5 supports it, see Code section above also.
 
 To build executable, type: make
 
@@ -155,5 +155,3 @@ Audio Notcher: move mouse to upper part of graph to show red bar, then spin mous
 ![rtl_lnx0.jpg](rtl_lnx0.jpg)
 
 ![rtl_lnx1.jpg](rtl_lnx1.jpg)
-
-

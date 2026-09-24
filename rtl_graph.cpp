@@ -10462,7 +10462,6 @@ if( wnd_rtl_graph->gph0->right_button )		//dragging, change onboard tuner freq ?
 	
 	if( ( pref_freq_right_click_drag_low_digit_zero_cnt > 0 ) )
 		{
-		
 		if( pref_freq_right_click_drag_low_digit_zero_cnt == 4 ) drop_factor = 10000;
 		if( pref_freq_right_click_drag_low_digit_zero_cnt == 3 ) drop_factor = 1000;
 		if( pref_freq_right_click_drag_low_digit_zero_cnt == 2 ) drop_factor = 100;
@@ -19209,7 +19208,7 @@ gp_preset->end();
 
 //----
 
-Fl_Group* gp_preset2 = new Fl_Group( 885, h() - 195, 150, 150, "gp_preset2");
+Fl_Group* gp_preset2 = new Fl_Group( 886, h() - 195, 190, 150, "gp_preset2");
 gp_preset2->labelsize(7);
 //gp_preset2->box( FL_BORDER_BOX );
 
@@ -19228,7 +19227,7 @@ tb_preset2->labelsize( 9 );
 	scl_preset2_scroll0 = new Fl_Scroll( gp_preset2_grp0->x() + 1, gp_preset2_grp0->y()+1, gp_preset2_grp0->w(), 150-17, "");
 //	scl_preset2_scroll0->labelsize( 9 );
 
-	int iled_offsx = 117;
+	int iled_offsx = 157;
 	
 	jj = 0;
 	for( int i = 0; i < cn_preset_memory_max_clm; i++ )
@@ -19236,6 +19235,7 @@ tb_preset2->labelsize( 9 );
 		ld_preset_memory2[jj+i] = new GCLed( scl_preset2_scroll0->x() + iled_offsx, scl_preset2_scroll0->y() + 15+2+i*13, 11, 11, "" );
 		ld_preset_memory2[jj+i]->id = jj+i;
 		ld_preset_memory2[jj+i]->labelsize( 8 );
+		ld_preset_memory2[jj+i]->labelfont( 4 );
 		ld_preset_memory2[jj+i]->tooltip( "recalls a stored preset, right click to store current tuned details into this preset" );
 		ld_preset_memory2[jj+i]->align( FL_ALIGN_LEFT );
 		ld_preset_memory2[jj+i]->led_style = cn_gcled_style_square;
@@ -23864,9 +23864,9 @@ for( int i = 0; i < cn_preset_memory_max2; i++ )
 //	ld_preset_memory2[i]->tooltip( preset_memory[i].tooltip.c_str() );
 
 	strpf( s1, "%s", preset_memory2[i].sname.c_str() );
-	if( s1.length() > 16 )									//use 'WWWWWWWWWWWWWWWWWWWWWW' a wide font char str to determine where to clip label
+	if( s1.length() > 27 )												//clip label
 		{
-		s2 = s1.substr( 0, 16 );
+		s2 = s1.substr( 0, 27 );
 		s2 += " ..";
 		}
 	else{
