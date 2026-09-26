@@ -88,6 +88,9 @@ Edit/Preference menu holds various settings, Note: some settings such as zero pa
 
 Hover over gui controls to see a hint at what they do.
 
+Some gui editboxes which display numbers can be tweeked by the mousewheel, the courseness of the adj may be governed by how far to the left of the control the mouse cursor is sitting in when mousewheel is spun.
+
+
 Select a dongle sample-rate to use (DevBW), try 1920000 (1.92MHz). This is the adc sample-rate of the dongle, higher allows you to see more spectrum at once, but drives the dsp/display code harder and increases your processor usage. Changing DevBW will also adj DwnSrate to keep it an integer factor. Note: some DevBW srates available are not practical and will cause audio stuttering if they a too low or too high. Adj for what works best on your system. 
 
 Select the demodulator to use, presently: AM, SSB(for USB and LSB), FM, FM Stereo are supported, (WFM is the same a FM at present).

@@ -20704,10 +20704,10 @@ miw_pk_decay->limit_min = 0.01;
 miw_pk_decay->b_use_limit_max = 1;
 miw_pk_decay->limit_max = 0.999;
 miw_pk_decay->b_invert_wheel = 0;
-miw_pk_decay->std_wheel_step = 0.015;
-miw_pk_decay->ctrl_wheel_step = 0.025;
-miw_pk_decay->shift_wheel_step = 0.05;
-miw_pk_decay->ctrl_shift_wheel_step = 0.1;
+miw_pk_decay->std_wheel_step = 0.010;
+miw_pk_decay->ctrl_wheel_step = 0.015;
+miw_pk_decay->shift_wheel_step = 0.025;
+miw_pk_decay->ctrl_shift_wheel_step = 0.05;
 
 miw_pk_decay->b_step_wheel_side_left = 0;								//these are overruled if ctrl/shift keys are down
 miw_pk_decay->b_step_wheel_side_left_center = 0;
@@ -30777,7 +30777,7 @@ return width;
 int gph0_last_sel_idx = 0;
 
 vector<double> vpk_decay;
-
+int ilast_plot_vector_size = 0;
 
 //this is the graph with graticule (not a 'fast_mgraph' obj), it's called from 'update_prep_gph0()'
 void rtl_graph_wnd::update_gph0( vector<st_spect_tag> &vspct )
@@ -30901,20 +30901,46 @@ carrier_signal_level = -1.0f;
 
 //printf("update_gph0() vspct %d\n", vspct.size() );
 
-vpk_decay.reserve( vspct.size() );
 
+
+
+if( bpeak_decay )
+	{
+	if( ilast_plot_vector_size != vspct.size() )						//vector size changed ?
+		{
+		vpk_decay.reserve( vspct.size() );								//reserve incase vector has grown 
+
+//printf("update_gph0() - ZZZZZZZZZZZZZZZZzz vpk_decay.capacity() %d  vspct.size() %d\n", vpk_decay.capacity(), vspct.size() );
+		
+		for( int j = 0; j < vspct.size(); j++ )							//clear vector
+			{
+			vpk_decay[j] = 0.0;
+			}
+			
+		ilast_plot_vector_size = vspct.size();
+		}
+	}
+
+
+
+//build spectrum to be plotted
 for( int i = 0; i <	vspct.size(); i++ )
 	{
 	if( i >= cn_vspec_avg_size_max ) break;
 
-	if( vspct[i].ampl > vpk_decay[i] )
+
+	if( bpeak_decay )
 		{
-		vpk_decay[i] = vspct[i].ampl;	
+		if( vspct[i].ampl > vpk_decay[i] )
+			{
+			vpk_decay[i] = vspct[i].ampl;	
+			}
+		else{
+			if( vpk_decay[i] > 2 ) vpk_decay[i] = 2;					//clip
+			vpk_decay[i] *= pk_decay_factor;
+			}
 		}
-	else{
-		if( vpk_decay[i] > 2 ) vpk_decay[i] = 2;
-		vpk_decay[i] *= pk_decay_factor;
-		}
+
 //printf("here\n" );	
 		
 //	b_spect_average = 0;
