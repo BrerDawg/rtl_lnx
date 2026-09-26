@@ -130,9 +130,11 @@ extern mystr tim;
 extern mystr tim0;
 extern mystr tim1;
 
-mystr m1_skeyin_freq_changed;											//used when user is keying in a freq while mouse is in gph0
-mystr m1_skeyin_freq_changed1;
+//mystr m1_skeyin_freq_changed;											//used when user is keying in a freq while mouse is in gph0
+mystr m1_skeyin_freq_changed1;		//used to detect a double 'Enter' key
 int i_skeyin_restore_cnt = 0;		//one shot timer to allow restore of current on-board tuner freq (into gui ctrl) if no number is entered
+int i_skeyin_popup_cnt = 0;			//one shot timer to show skeyin freq popup on gph0
+
 
 extern vector<string> vtunehist2;
 extern int ilast_device_index;
@@ -3643,88 +3645,6 @@ b_clip_enable = g_params.b_clip_enable;
 
 
 
-void listen_old_delete( double freq_in )
-{
-printf( "listen_old_delete()\n" );
-string s1;
-
-if( !wnd_rtl_graph ) return;
-
-//wnd_rtl_graph->add_to_tune_history();
-
-get_user_gui_control_params();
-/*
-double freq_tune = 0;
-double freq_start = 410000;
-double freq_stop = 490000;
-double freq_step = 1000;
-double freq_gain= 100;
-double bandwidth = 2000000;
-double freq_reso = 8192;
-double threshold = 0;
-
-double bw_lower;
-double bw_upper;
-double interfreq;
-bool bandwidth_limit;
-
-get_user_params( freq_tune, freq_start, freq_stop, freq_step, freq_gain, bandwidth, freq_reso, threshold, bw_lower, bw_upper, interfreq, bandwidth_limit  );
-
-g_bw_lower = bw_lower;
-g_bw_upper = bw_upper;
-g_interfreq = interfreq;
-g_rtl_bw = bandwidth;
-g_bw_limit = bandwidth_limit;
-g_tuner_gain = freq_gain;
-*/
-
-//rtl_listen_stop();
-
-rtl.set_direct_sampling( g_dev_direct_sampling );
-
-rtl.set_gain( g_dev_gain );
-
-//rtl.set_srate( bandwidth );
-
-
-imode = en_mode_listen;
-rtl_listen( freq_in );
-}
-
-
-
-
-
-void listen_using_globals()
-{
-
-/*
-g_freq_tune = freq_tune;
-g_bw_lower = bw_lower;
-g_bw_upper = bw_upper;
-g_b_if_freq = b_if_freq;
-g_interfreq = interfreq;
-g_device_bw = dev_bandwidth;
-g_b_bw_limit = b_bandwidth_limit;
-g_dev_gain = freq_gain;
-g_tuning_offset = tuning_offset;
-
-g_gain_iq = gain_iq;
-g_direct_sampling = direct_sampling;
-g_bias_t = bias_t;
-*/
-
-
-
-imode = en_mode_listen;
-rtl.set_center_freq( g_freq_tune );
-rtl.set_gain( g_dev_gain );
-rtl.set_srate( g_dev_bw );
-
-rtl.set_direct_sampling( g_dev_direct_sampling );
-rtl.set_offset_tuning( g_dev_offset_tuning );
-
-}
 
 
 
@@ -3738,53 +3658,6 @@ rtl.set_offset_tuning( g_dev_offset_tuning );
 
 
 
-
-void cb_fi_freq_gain( Fl_Widget *w, void *v )
-{
-get_user_gui_control_params();
-printf( "cb_fi_freq_gain() - %f\n", g_dev_gain );
-
-rtl.set_gain( g_dev_gain );
-
-float fgain = rtl.get_gain();
-
-printf( "cb_fi_freq_gain() - gain setting returned from rtl %f\n", fgain );
-
-}
-
-
-
-
-
-/*
-void cb_bt_tune_history( Fl_Widget *, void * )
-{
-string s1;
-double frq;
-
-
-if( !wnd_rtl_graph ) return;
-
-Fl_Menu_Button *m = wnd_rtl_graph->fi_tune->menubutton();
-
-if( m->value() < 0 ) return;
-
-//check if callback was due to a menu change, ie: ignore keyboard text change triggered callbacks
-if( wnd_rtl_graph->last_tune_history_value != m->value() )		//has menu item been change?
-	{
-	
-	s1 = wnd_rtl_graph->fi_tune->value();
-	sscanf( s1.c_str(), "%lf", &frq );
-
-	
-	wnd_rtl_graph->freq_listen( 0, 0, 0, 0 );
-	wnd_rtl_graph->last_tune_history_value = m->value();		//remember for next callabck
-
-	wnd_rtl_graph->miwp_tune->miw->set_value_from_double( frq );
-	}
-
-}
-*/
 
 
 
@@ -9709,6 +9582,18 @@ wnd_rtl_graph->led_filter_memory_turn_off();
 
 
 
+void set_gain_onboard_tuner( double gain_in )
+{
+rtl.set_gain( gain_in );							//the gain needs to be set after 'set_dev_direct_sampling()' call, also turns off agc by going into gain manual mode via 'rtlsdr_set_tuner_gain_mode()'
+
+wnd_rtl_graph->ld_tuner_agc->ChangeCol( 0 );							//show obt agc is now turned off
+}
+
+
+
+
+
+
 
 
 
@@ -9765,9 +9650,11 @@ if( history_add )
 
 
 
-if(bset_dev_srate) 
+if( bset_dev_srate ) 
 	{
-	rtl.set_srate( g_dev_bw );
+//	rtl.set_srate( g_dev_bw );
+	set_gain_onboard_tuner( g_dev_gain );								//the gain needs to be set after 'set_dev_direct_sampling()' call
+
 	}
 
 
@@ -10732,7 +10619,7 @@ printf( "cb_graph_keydown() - NNNNNNNNNNNNNNNNNN centered\n" );
 //-------- freq keyin while mouse is in gph0 ---------
 bool bchanged = 0;
 bool benter = 0;
-bool btune = 1;
+bool btune = 0;
 
 s1 = wnd_rtl_graph->miwp_tune->miw->value();
 //skeyin = wnd_rtl_graph->miwp_tune->miw->value();
@@ -10741,16 +10628,21 @@ s1 = wnd_rtl_graph->miwp_tune->miw->value();
 if( ( key == FL_Enter ) || ( key == FL_KP_Enter ) )
 	{
 	float dt = m1_skeyin_freq_changed1.time_passed( m1_skeyin_freq_changed1.ns_tim_start );
-	m1_skeyin_freq_changed1.time_start( m1_skeyin_freq_changed1.ns_tim_start );			//start timer to show freq text on graph
+	m1_skeyin_freq_changed1.time_start( m1_skeyin_freq_changed1.ns_tim_start );			//start timer to detect a double 'Enter' key
 
-	if( dt < 1 )														//two 'enter' keys in succession ?
+	if( dt < 2 )														//two 'enter' keys in succession ?
 		{
 		s1 = "";														//clear keyin
 		wnd_rtl_graph->miwp_tune->miw->value_text_only( s1.c_str() );
 
-		btune = 0;
+//		btune = 0;
 		}
-
+	else{
+		if( i_skeyin_popup_cnt != 0 )									//is skeyin still showing
+			{
+			if( wnd_rtl_graph->skeyin_freq.length() != 0 ) btune = 1;
+			}
+		}
 	benter = 1;
 	bchanged = 1;
 	}
@@ -10798,6 +10690,7 @@ if( ( key == 'k' ) || ( key == 'm' ) || ( key == 'g' ) )
 
 		bchanged = 1;
 		benter = 1;
+		btune = 1;
 		}
 
 
@@ -10808,6 +10701,7 @@ if( ( key == 'k' ) || ( key == 'm' ) || ( key == 'g' ) )
 		
 		bchanged = 1;
 		benter = 1;
+		btune = 1;
 		}
 
 
@@ -10818,14 +10712,18 @@ if( ( key == 'k' ) || ( key == 'm' ) || ( key == 'g' ) )
 
 		bchanged = 1;
 		benter = 1;
+		btune = 1;
 		}
 	}
 
 if( bchanged )
 	{
 	wnd_rtl_graph->skeyin_freq = s1;
-	i_skeyin_restore_cnt = 50;		//start a one shot timer to allow restore of current on-board tuner freq (into gui ctrl) if no number is entered
+	i_skeyin_restore_cnt = 80;		//start a one shot timer to allow restore of current on-board tuner freq (into gui ctrl) if no number is entered
 
+
+	i_skeyin_popup_cnt = 100;											//start a one shot timer
+	
 	if(benter) 
 		{
 		if( btune ) 
@@ -10836,11 +10734,13 @@ if( bchanged )
 			wnd_rtl_graph->centre_graph( 1, -1 );
 
 			s1 = "";
+
+			i_skeyin_popup_cnt = 30;									//as freq changed, reduce popup dur with a shorter one shot timer
 			}
-		
 		}
 	
-	m1_skeyin_freq_changed.time_start( m1_skeyin_freq_changed.ns_tim_start );			//start timer to show freq text on graph
+//	m1_skeyin_freq_changed.time_start( m1_skeyin_freq_changed.ns_tim_start );			//start timer to show freq text on graph
+
 	}
 
 //-------------------
@@ -15995,6 +15895,31 @@ if( which == 3 )					//bias_t
 //	o->ChangeCol( g_dev_bias_t );
 	}
 
+
+
+if( which == 10 )					//tuner agc
+	{
+	rtl.set_gain_mode( !i );											//0: is auto, 1: is manual
+//	g_dev_bias_t = !g_dev_bias_t;
+//	wnd_rtl_graph->set_bias_t( g_dev_bias_t );
+//	rtl.set_bias_tee( g_dev_bias_t );
+//	o->ChangeCol( g_dev_bias_t );
+	}
+
+
+if( which == 11 )					//rtl2832u dig agc
+	{
+
+	rtl.set_agc_mode( i );
+//	g_dev_bias_t = !g_dev_bias_t;
+//	wnd_rtl_graph->set_bias_t( g_dev_bias_t );
+//	rtl.set_bias_tee( g_dev_bias_t );
+//	o->ChangeCol( g_dev_bias_t );
+	}
+
+
+
+
 }
 
 
@@ -16999,9 +16924,10 @@ if( pref_freq_mouse_hov )
 //------ keyin freq popup ---------
 if( 1 )
 	{
-	float dt = m1_skeyin_freq_changed.time_passed( m1_skeyin_freq_changed.ns_tim_start );
+//	float dt = m1_skeyin_freq_changed.time_passed( m1_skeyin_freq_changed.ns_tim_start );
 	
-	if( dt < 2 )
+
+	if( i_skeyin_popup_cnt != 0 )
 		{
 		
 		//text backgrnd rect
@@ -20127,7 +20053,7 @@ miw_freq_gain = new My_Input_Wheel( gp_dev->x() + 135, gp_dev->y() + 10, 25, 15,
 miw_freq_gain->labelsize(9);
 miw_freq_gain->textsize(9);
 miw_freq_gain->align(FL_ALIGN_LEFT);
-miw_freq_gain->tooltip( "device's gain" );
+miw_freq_gain->tooltip( "device's gain, this will turn off 'tuner_agc' setting" );
 miw_freq_gain->b_show_modified = 1;
 miw_freq_gain->col_bkg = fl_rgb_color( 220, 255, 220 );
 miw_freq_gain->color( miw_freq_gain->col_bkg );
@@ -20300,6 +20226,38 @@ ld_bias_t->SetColIndex(0, 120, 80, 80);
 ld_bias_t->SetColIndex(1, 255, 0, 0);
 //ld_direct_sampling->set_col_from_str( "100 0 0, 255 0 0, 0 0 255", ',' );     //the thrid colour set not used in this app
 ld_bias_t->callback( cb_led_combo, (void*)3 );
+
+
+
+
+ld_tuner_agc = new GCLed( gp_dev->x() + 135, gp_dev->y() + 85, 11, 11, "tuner_agc" );
+ld_tuner_agc->labelsize( 8 );
+ld_tuner_agc->tooltip( "turn on onboard tuner's agc (front end), the DevGain setting will be ignored" );
+ld_tuner_agc->align( FL_ALIGN_LEFT );
+//ld_tuner_agc->led_style = cn_gcled_style_square;
+ld_tuner_agc->led_style = cn_gcled_style_round;
+
+ld_tuner_agc->SetColIndex(0, 120, 80, 80);
+ld_tuner_agc->SetColIndex(1, 255, 0, 0);
+//ld_tuner_agc->set_col_from_str( "100 0 0, 255 0 0, 0 0 255", ',' );     //the thrid colour set not used in this app
+ld_tuner_agc->callback( cb_led_combo, (void*)10 );
+
+
+
+
+
+
+ld_rtl_dig_agc = new GCLed( gp_dev->x() + 235, gp_dev->y() + 85, 11, 11, "rtl_dig_agc" );
+ld_rtl_dig_agc->labelsize( 8 );
+ld_rtl_dig_agc->tooltip( "turn on RTL2832U digital agc" );
+ld_rtl_dig_agc->align( FL_ALIGN_LEFT );
+//ld_rtl_dig_agc->led_style = cn_gcled_style_square;
+ld_rtl_dig_agc->led_style = cn_gcled_style_round;
+
+ld_rtl_dig_agc->SetColIndex(0, 120, 80, 80);
+ld_rtl_dig_agc->SetColIndex(1, 255, 0, 0);
+//ld_rtl_dig_agc->set_col_from_str( "100 0 0, 255 0 0, 0 0 255", ',' );     //the thrid colour set not used in this app
+ld_rtl_dig_agc->callback( cb_led_combo, (void*)11 );
 
 
 
@@ -24218,6 +24176,17 @@ if( i_skeyin_restore_cnt > 0 ) 											//one shot timer
 	}
 //------------------------
 
+
+//------ skeyin popup dur ------
+if( i_skeyin_popup_cnt > 0 ) 											//one shot timer
+	{
+	i_skeyin_popup_cnt--;
+	if( i_skeyin_popup_cnt == 0 )
+		{
+//		if( wnd_rtl_graph->skeyin_freq.length() == 0 ) wnd_rtl_graph->miwp_tune->miw->set_value_from_double( g_freq_tune );	
+		}
+	}
+//------------------------
 
 
 //------

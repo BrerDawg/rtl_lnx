@@ -1130,6 +1130,8 @@ cl_waterfall *wfall0;
 
 GCLed* ld_direct_sampling;
 GCLed* ld_bias_t;
+GCLed* ld_tuner_agc;
+GCLed* ld_rtl_dig_agc;
 GCLed* ld_offset_tuning;
 GCLed* ld_buf_rd_adj;
 GCLed* ld_clip;
