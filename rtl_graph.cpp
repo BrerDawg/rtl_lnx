@@ -20247,7 +20247,7 @@ ld_tuner_agc->callback( cb_led_combo, (void*)10 );
 
 
 
-ld_rtl_dig_agc = new GCLed( gp_dev->x() + 235, gp_dev->y() + 85, 11, 11, "rtl_dig_agc" );
+ld_rtl_dig_agc = new GCLed( gp_dev->x() + 215, gp_dev->y() + 85, 11, 11, "rtl_dig_agc" );
 ld_rtl_dig_agc->labelsize( 8 );
 ld_rtl_dig_agc->tooltip( "turn on RTL2832U digital agc" );
 ld_rtl_dig_agc->align( FL_ALIGN_LEFT );
