@@ -1044,6 +1044,8 @@ Fl_Check_Button *ck_user_dc_block_iq;
 Fl_Check_Button *ck_user_hpf0;
 My_Input_Wheel *miw_user_hpf0;
 
+GCLed *ld_pk_decay;
+My_Input_Wheel *miw_pk_decay;
 
 Fl_Check_Button *ck_user_dwn_aa;
 
@@ -1216,7 +1218,8 @@ int ineed_graph_fit;													//load this with number of ticks to tigger a ca
 bool bneed_graph_fit_bring_for_front = 0;
 
 string skeyin_freq;
-
+bool bpeak_decay;
+float pk_decay_factor;
 
 
 private:

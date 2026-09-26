@@ -4659,6 +4659,25 @@ rtl.set_ppm( ii );
 
 
 
+
+void cb_miw_pk_decay( Fl_Widget *w, void *v )
+{
+string s1;
+
+My_Input_Wheel *wdj = (My_Input_Wheel*)w;
+rtl_graph_wnd *o = (rtl_graph_wnd*) v;
+
+float ff = wdj->get_value_as_double();
+printf( "cb_miw_pk_decay() - %f\n", ff );
+
+wnd_rtl_graph->pk_decay_factor = ff;
+}
+
+
+
+
+
+
 void cb_miw_gph_scaley( Fl_Widget *w, void *v )
 {
 string s1;
@@ -15845,6 +15864,38 @@ o =(GCLed *)w;
 
 
 
+void cb_ld_pk_decay( Fl_Widget *w, void* v )
+{
+int which = (intptr_t)v;
+printf( "ld_pk_decay() - which %d\n", which );
+
+GCLed *o;
+o =(GCLed *)w;
+
+int i = o->GetColIndex();
+if( i >= 0 )
+	{
+	i++;
+	if( i > 1 ) i = 0;
+	o->ChangeCol( i );
+	}
+
+if( which == 0 )									//peak decay
+	{
+	wnd_rtl_graph->bpeak_decay = i;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
 void cb_led_combo( Fl_Widget *w, void* v )
 {
 int which = (intptr_t)v;
@@ -18058,7 +18109,9 @@ gph0->grat_pixels_y = grat_pixels_y;
 gph0->cro_graticle = 1;
 gph0->b_take_focus_on_enter = 1;	
 
-
+bpeak_decay = 0;
+pk_decay_factor = 0.90;
+ 
 //fi_ifreq = new Fl_Input( 520, h() - 100, 90, 20, "IFreq:" );
 //fi_ifreq->when( FL_WHEN_ENTER_KEY );
 //fi_ifreq->callback( cb_fi_ifreq, 0 );
@@ -20612,6 +20665,79 @@ miw_gph_scaley->right_drag_y_val_change_factor = miw_gph_scaley->limit_max / 100
 
 
 
+
+ld_pk_decay = new GCLed( gp_disp->x() + 170, gp_disp->y() + 27, 11, 11, "PkDecay" );
+ld_pk_decay->labelsize( 8 );
+ld_pk_decay->tooltip( "graph spectrum with peak and decay, this option is ignored if 'avg' is non zero" );
+ld_pk_decay->align( FL_ALIGN_LEFT );
+//ld_pk_decay->led_style = cn_gcled_style_square;
+ld_pk_decay->led_style = cn_gcled_style_round;
+
+ld_pk_decay->SetColIndex(0, 80, 120, 80);
+ld_pk_decay->SetColIndex(1, 80, 255, 80);
+//ld_pk_decay->set_col_from_str( "100 0 0, 255 0 0, 0 0 255", ',' );     //the thrid colour set not used in this app
+ld_pk_decay->callback( cb_ld_pk_decay, (void*)0 );
+
+
+
+
+
+
+
+
+miw_pk_decay = new My_Input_Wheel( gp_disp->x() + 185, gp_disp->y() + 25, 40, 15, "");
+miw_pk_decay->labelsize(10);
+miw_pk_decay->textsize(9);
+miw_pk_decay->align(FL_ALIGN_LEFT);
+miw_pk_decay->tooltip( "set decay factor (e.g: 0.98 gives slow decay, max is 0.99 )" );
+miw_pk_decay->b_show_modified = 1;
+miw_pk_decay->col_bkg = fl_rgb_color( 220, 255, 220 );
+miw_pk_decay->color( miw_pk_decay->col_bkg );
+miw_pk_decay->col_bkg_hover = fl_rgb_color( 200, 255, 200 );
+miw_pk_decay->col_bkg_focus = fl_rgb_color( 255, 230, 230 );
+miw_pk_decay->col_bkg_hover_focus = fl_rgb_color( 255, 220, 220 );
+miw_pk_decay->col_bkg_modified = fl_rgb_color( 255, 180, 180 );
+miw_pk_decay->col_bkg_hover_modified = fl_rgb_color( 255, 170, 170 );
+miw_pk_decay->b_take_focus_on_inside = 0;
+miw_pk_decay->b_use_limit_min = 1;
+miw_pk_decay->limit_min = 0.01;
+miw_pk_decay->b_use_limit_max = 1;
+miw_pk_decay->limit_max = 0.999;
+miw_pk_decay->b_invert_wheel = 0;
+miw_pk_decay->std_wheel_step = 0.015;
+miw_pk_decay->ctrl_wheel_step = 0.025;
+miw_pk_decay->shift_wheel_step = 0.05;
+miw_pk_decay->ctrl_shift_wheel_step = 0.1;
+
+miw_pk_decay->b_step_wheel_side_left = 0;								//these are overruled if ctrl/shift keys are down
+miw_pk_decay->b_step_wheel_side_left_center = 0;
+miw_pk_decay->b_step_wheel_side_right_center = 0;
+miw_pk_decay->b_step_wheel_side_right = 0;
+
+miw_pk_decay->step_wheel_side_right = 0;
+miw_pk_decay->step_wheel_side_right_center = 0;
+miw_pk_decay->step_wheel_side_left_center = 0;
+miw_pk_decay->step_wheel_side_left = 0;
+
+miw_pk_decay->s_printf_format = "%.3f";
+miw_pk_decay->force_integer = 0;
+miw_pk_decay->set_value_from_double( pk_decay_factor );
+miw_pk_decay->set_callback( (void*)cb_miw_pk_decay, miw_pk_decay, (void*)0 );
+miw_pk_decay->id = 0;														//additional value for callback, useful for matrix arrays of ctrls
+miw_pk_decay->id2 = 1;
+miw_pk_decay->allow_right_but_drag = 1;
+miw_pk_decay->right_drag_x_val_change_factor = 0;
+miw_pk_decay->right_drag_y_val_change_factor = miw_pk_decay->limit_max / 100.0f;
+
+
+
+
+
+
+
+
+
+
 ch_graph_loc_sel = new Fl_Choice( gp_disp->x() + 50, gp_disp->y() + 40, 229, 18, "probe loc:");
 ch_graph_loc_sel->labelsize(9); 
 ch_graph_loc_sel->textsize(9); 
@@ -20623,7 +20749,7 @@ ch_graph_loc_sel->callback( cb_ch_graph_loc_sel );
 
 
 
-Fl_Check_Button* ck_fit_auto_plot = new Fl_Check_Button( gp_disp->x() + 70 + 105, gp_disp->y() + 12, 50, 15, "auto fit" );
+Fl_Check_Button* ck_fit_auto_plot = new Fl_Check_Button( gp_disp->x() + 70 + 105, gp_disp->y() + 9, 50, 15, "auto fit" );
 ck_fit_auto_plot->labelsize( 10 );
 ck_fit_auto_plot->callback( cb_ck_fit_auto_plot, 0 );
 ck_fit_auto_plot->tooltip( "will auto scale y-axis to fit trace in plot wnd,\ndone after a new probe location is selected" );
@@ -28710,6 +28836,13 @@ i_deemphasis = p.GetPrivateProfileLONG( "Settings", "i_deemphasis", 0 );
 ld_fm_deemph->ChangeCol( i_deemphasis );
 
 
+bpeak_decay = p.GetPrivateProfileLONG( "Settings", "bpeak_decay", 0 );
+ld_pk_decay->ChangeCol( bpeak_decay );
+
+pk_decay_factor = p.GetPrivateProfileDOUBLE( "Settings", "pk_decay_factor", 0.90 );
+miw_pk_decay->set_value_from_double( pk_decay_factor );
+
+
 for( int i = 0; i < cn_btw_band_max; i++ )
 	{
 //	cl_button_wheel *bt = btw_band[i];
@@ -29014,6 +29147,14 @@ p.WritePrivateProfileLONG( "Settings", "b_agc", b_agc );
 p.WritePrivateProfileLONG( "Settings", "b_dc_block_iq", b_dc_block_iq );
 
 p.WritePrivateProfileLONG( "Settings", "i_deemphasis", i_deemphasis );
+
+p.WritePrivateProfileLONG( "Settings", "bpeak_decay", bpeak_decay );
+
+p.WritePrivateProfileDOUBLE( "Settings", "pk_decay_factor", pk_decay_factor );
+
+
+
+
 
 
 for( int i = 0; i < cn_btw_band_max; i++ )
@@ -30635,6 +30776,7 @@ return width;
 
 int gph0_last_sel_idx = 0;
 
+vector<double> vpk_decay;
 
 
 //this is the graph with graticule (not a 'fast_mgraph' obj), it's called from 'update_prep_gph0()'
@@ -30759,11 +30901,20 @@ carrier_signal_level = -1.0f;
 
 //printf("update_gph0() vspct %d\n", vspct.size() );
 
+vpk_decay.reserve( vspct.size() );
 
 for( int i = 0; i <	vspct.size(); i++ )
 	{
 	if( i >= cn_vspec_avg_size_max ) break;
 
+	if( vspct[i].ampl > vpk_decay[i] )
+		{
+		vpk_decay[i] = vspct[i].ampl;	
+		}
+	else{
+		if( vpk_decay[i] > 2 ) vpk_decay[i] = 2;
+		vpk_decay[i] *= pk_decay_factor;
+		}
 //printf("here\n" );	
 		
 //	b_spect_average = 0;
@@ -30812,7 +30963,10 @@ for( int i = 0; i <	vspct.size(); i++ )
 		}
 	else{
 		pnt1.x = vspct[ i ].freq_actual;
-		pnt1.y = vspct[ i ].ampl;
+		
+		if( bpeak_decay ) pnt1.y = vpk_decay[ i ];
+		else pnt1.y = vspct[ i ].ampl;
+		
 		pnt1.sel = 0;
 		}
 
