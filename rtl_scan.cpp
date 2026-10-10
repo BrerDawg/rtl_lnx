@@ -3841,7 +3841,7 @@ if( sz != 0 )
 	}
 else{
 	strpf( s1, "Start I/Q synthesis to simulate an RTL dongle stream with test signals ?" );
-	int ret = fl_choice( s1.c_str(),"No","Start Synthsis", 0 );
+	int ret = fl_choice( s1.c_str(),"No","Start Synthesis", 0 );
 	if( ret == 1 )
 		{
 		bstart_synthesis = 1;
